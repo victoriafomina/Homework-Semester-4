@@ -41,12 +41,3 @@ let listPowers n m =
 let firstPos list num =
     if list = [] then None
     else Some(List.findIndex(fun x -> x = num) list)
-
-
-[<EntryPoint>]
-let main argv =
-    printfn "Hello World from F#!"
-    printfn "%A" (firstPos [-5; 2; 3; 4] 3)
-    printfn "%A" (listPowers 2 5)
-    printfn "%A" (reverseList [1; 2; 3; 4])
-    0
