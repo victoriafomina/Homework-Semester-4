@@ -1,5 +1,5 @@
 ﻿
-// Посчитать факториал
+/// <summary>Calculates factorial.</summary>
 let fact n =
     let rec factRec n acc =
         if n < 0 then None
@@ -7,7 +7,7 @@ let fact n =
         else factRec (n - 1) (acc * n)
     factRec n 1
 
-// Посчитать числа Фибоначчи (за линейное время)
+/// <summary>Finds nth number in a sequence of fibonacci numbers.</summary>
 let fibonacci n =
     let rec fibonacciRec n prev prevPrev count =
         if n < 0 then None
@@ -16,15 +16,15 @@ let fibonacci n =
         else fibonacciRec n (prev + prevPrev) prev (count + 1)
     fibonacciRec n 1 1 3
 
-// Реализовать функцию обращения списка (за линейное время)
+/// <summary>Reverses a list.</summary>
 let reverseList list =
     let rec reverseRec list acc =
         if list = [] then acc
         else reverseRec list.Tail (list.Head :: acc)
     reverseRec list []
 
-// Реализовать функцию, которая принимает на вход n и m и возвращает список из элементов 
-// [2^n; 2^(n + 1); ...; 2^(n + m)]
+/// <summary>The function uses parameters n, m to create the list 
+/// [2^n; 2^(n + 1); ...; 2^(n + m)].</summary>
 let listPowers n m =
     let rec twoPowered n acc =
         if n = 0 then acc
@@ -37,7 +37,7 @@ let listPowers n m =
         else returnsListRec (pow - 1) (acc / 2) (acc :: list)
     returnsListRec (m - n + 1) (twoPowered m 1) []
 
-// Реализовать функцию, которая выдает первую позицию вхождения заданного числа в список
+/// <returns>The first posions of the element in the list.</returns>
 let firstPos list num =
     if list = [] then None
     else Some(List.findIndex(fun x -> x = num) list)
