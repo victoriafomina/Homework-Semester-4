@@ -3,7 +3,7 @@ image: Visual Studio 2019
 environment:
   
   matrix:
-  - solution_path: FSharpHW1/hw1/FSharpHW1/FSharpHW1.sln
+  - solution_path: hw1/FSharpHW1/FSharpHW1.sln
   
 before_build:
   - nuget restore %solution_path%
