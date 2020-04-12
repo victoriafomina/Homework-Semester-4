@@ -1,1 +1,3 @@
 ﻿module InfiniteSequenceOfPrimesTests
+
+open InfiniteSequenceOfPrimes

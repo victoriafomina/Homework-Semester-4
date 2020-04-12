@@ -5,12 +5,18 @@
 // Использование рекурсии не допускается, зато нужен FsCheck для проверки функций 
 // на эквивалентность
 
+/// <summary>Counts even numbers in the list using map.</summary>
+//let countEvenInListMap list =
+//    if list = [] then None
+//    else Some(List.sum(List.map(fun x -> if x % 2 = 0 then 0 else 1)))
+
+/// <summary>Counts even numbers in the list using filter.</summary>
 let countEvenInListFilter list =
     if list = [] then None
     else Some((List.filter(fun x -> x % 2 = 0) list).Length)
 
-// странно работает
+/// <summary>Counts even numbers in the list using fold.</summary>
 let countEvenInListFold list =
    if list = [] then None
-   else Some(List.fold(fun acc x -> acc - x % 2 + 1) 0 list)
+   else Some(List.fold(fun acc x -> if x % 2 = 0 then acc + 1 else acc) 0 list)
     
