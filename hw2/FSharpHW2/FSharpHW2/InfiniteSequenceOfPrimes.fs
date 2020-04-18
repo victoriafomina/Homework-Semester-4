@@ -1,7 +1,7 @@
 ﻿module InfiniteSequenceOfPrimes
 
 /// <summary>The function generates infinite sequence of primes.</summary>
-let infSeqOfPrimes =
+let infiniteSeqOfPrimes =
     let rec isPrime n acc = 
         if n = 2 then true
         elif float acc > sqrt (float n) then true
