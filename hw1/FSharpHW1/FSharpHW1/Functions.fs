@@ -39,5 +39,9 @@ let listPowers n m =
 
 /// <returns>The first posions of the element in the list.</returns>
 let firstPos list num =
-    if list = [] then None
-    else Some(List.findIndex(fun x -> x = num) list)
+    if list = [] || List.contains(num) list then None
+    else
+    let rec recFirstPos list num pos =
+        if List.head list = num then Some(pos)
+        else recFirstPos (List.tail list) num (pos + 1)
+    recFirstPos list num 0
