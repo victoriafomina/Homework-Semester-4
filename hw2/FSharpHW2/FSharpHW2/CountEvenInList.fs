@@ -6,9 +6,9 @@
 // на эквивалентность
 
 /// <summary>Counts even numbers in the list using map.</summary>
-//let countEvenInListMap list =
-//    if list = [] then None
-//    else Some(List.sum(List.map(fun x -> if x % 2 = 0 then 0 else 1)))
+let countEvenInListMap list =
+    if list = [] then None
+    else Some(List.sum(List.map(fun x -> if x % 2 = 0 then 1 else 0) list))
 
 /// <summary>Counts even numbers in the list using filter.</summary>
 let countEvenInListFilter list =

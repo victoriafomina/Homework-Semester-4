@@ -13,6 +13,6 @@ let main argv =
 
     // mapTree myTree sq
 
-    printfn "%A" infiniteSeqOfPrimes
+    printfn "%A" (countEvenInListMap([1; 2; 4; 2; -1; 7]))    
 
     0
