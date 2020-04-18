@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="ParseTreeTests.fs" />
     <Compile Include="MapForTreesTests.fs" />
     <Compile Include="InfiniteSequenceOfPrimesTests.fs" />
     <Compile Include="CountEvenInListTests.fs" />

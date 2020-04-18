@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="ParseTree.fs" />
     <Compile Include="MapForTrees.fs" />
     <Compile Include="InfiniteSequenceOfPrimes.fs" />
     <Compile Include="CountEvenInList.fs" />

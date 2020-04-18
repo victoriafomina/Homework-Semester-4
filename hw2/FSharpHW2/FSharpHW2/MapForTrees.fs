@@ -26,8 +26,11 @@ let rec isInTree tree x =
     | Leaf -> false
 
  // не получилось: распечатать и добавить в список
-    (*
-let rec listElements tree list =
+ (*  
+let rec listElements(tree: Tree<int>, list: List<int>) =
     match tree with
-    | Node(v, l, r) -> (listElements l v :: list) (listElements r v :: list)
-    *)
+    | Node(v, l, r) -> printf "%d" v 
+        listElements(l v :: list)
+        listElements r v :: list
+*)
+    
