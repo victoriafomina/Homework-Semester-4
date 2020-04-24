@@ -13,3 +13,7 @@ let ``Greatest palindrome should return 906609`` () =
 let ``SuperMap smoke test`` () =
     (abs(0.841 - (superMap [1.0; 2.0; 3.0]).[0]) < 0.01 |> should equal true)
 
+[<Test>]
+let ``SuperMap smoke test 2`` () =
+    (abs(-0.4161 - (superMap [1.0; 2.0; 3.0]).[3]) < 0.01 |> should equal true)
+
