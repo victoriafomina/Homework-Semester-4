@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Queue.fs" />
     <Compile Include="SuperMap.fs" />
     <Compile Include="GreatestPalindrome.fs" />
     <Compile Include="Program.fs" />
