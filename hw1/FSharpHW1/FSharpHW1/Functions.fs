@@ -37,9 +37,9 @@ let listPowers n m =
         else returnsListRec (pow - 1) (acc / 2) (acc :: list)
     returnsListRec (m - n + 1) (twoPowered m 1) []
 
-/// <returns>The first posions of the element in the list.</returns>
+/// <returns>The first position of the element in the list.</returns>
 let firstPos list num =
-    if list = [] || List.contains(num) list then None
+    if list = [] || not (List.contains(num) list) then None
     else
     let rec recFirstPos list num pos =
         if List.head list = num then Some(pos)
