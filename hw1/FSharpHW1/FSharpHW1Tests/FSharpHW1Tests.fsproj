@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Compile Include="FSharpHW1Tests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
