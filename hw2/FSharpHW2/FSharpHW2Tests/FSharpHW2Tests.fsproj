@@ -23,7 +23,6 @@
     <Compile Include="MapForTreesTests.fs" />
     <Compile Include="InfiniteSequenceOfPrimesTests.fs" />
     <Compile Include="CountEvenInListTests.fs" />
-    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
