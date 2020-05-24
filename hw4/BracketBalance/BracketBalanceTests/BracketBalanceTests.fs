@@ -15,6 +15,13 @@ let testCases =
         "(())", true
         "(([))", false
         "{()[]}", true
+        ")", false
+        "))", false
+        "nagibator666", true
+        "meow)", false
+        "o(o)i{s}", true
+        "olo({ol}s)", true
+        "!", true
     ] |> List.map (fun (expression, isBalanced) -> TestCaseData(expression, isBalanced))
 
 [<Test>]

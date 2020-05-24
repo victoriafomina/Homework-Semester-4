@@ -2,17 +2,22 @@
 
 /// Checks the brackets balance in the expression.
 let bracketsIsInBalance expression =
-    let isOpeningBracket symbol =
-        symbol = "(" || symbol = "{" || symbol = "["
+    let isBracket symbol = List.contains symbol ['('; ')'; '['; ']'; '{'; '}'] 
+
+    let isOpeningBracket symbol = List.contains symbol ['('; '['; '{']
 
     let pairIsBalanced bracket1 bracket2 =
-        bracket1 = "(" && bracket2 = ")" || bracket1 = "{" && bracket1 = "}" || bracket1 = "[" && bracket1 = "]"
+        if List.contains bracket1 ['('; ')'] && List.contains bracket2 ['('; ')'] then true
+        elif List.contains bracket1 ['['; ']'] && List.contains bracket2 ['['; ']'] then true
+        elif List.contains bracket1 ['{'; '}'] && List.contains bracket2 ['{'; '}'] then true
+        else false
     
     let rec bracketsIsInBalanceRec expression brackets =
         match expression with
         | [] -> List.isEmpty brackets
-        | h :: t when brackets.[List.length brackets - 1] |> isOpeningBracket -> bracketsIsInBalanceRec t (h :: brackets)
-        | h :: t when pairIsBalanced brackets.[List.length brackets - 1] h -> bracketsIsInBalanceRec t (List.tail brackets)
-        | _ -> false
+        | h :: t when h |> isOpeningBracket -> bracketsIsInBalanceRec t (h :: brackets)
+        | h :: t when isBracket (List.head brackets) && pairIsBalanced (List.head brackets) h  ->  bracketsIsInBalanceRec t (List.tail brackets)
+        | h :: t when isBracket (List.head brackets) && not (pairIsBalanced (List.head brackets) h) -> false
+        | h :: t -> bracketsIsInBalanceRec t brackets
 
-    bracketsIsInBalanceRec expression []
+    bracketsIsInBalanceRec (Seq.toList expression) []
