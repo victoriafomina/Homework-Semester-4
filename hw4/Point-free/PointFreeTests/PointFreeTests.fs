@@ -1,11 +1,10 @@
 module PointFreeTests
 
 open NUnit.Framework
-
-[<SetUp>]
-let Setup () =
-    ()
+open PointFree
+open FsCheck
 
 [<Test>]
-let Test1 () =
-    Assert.Pass()
+let ``The results should be the same`` () = 
+    Check.QuickThrowOnFailure (fun x l ->
+    multiply1 x l = multiply2 x l && multiply2 x l = multiply3 x l && multiply3 x l = multiplyPointFree x l)
