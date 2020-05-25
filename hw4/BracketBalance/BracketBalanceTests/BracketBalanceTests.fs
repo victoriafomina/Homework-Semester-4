@@ -27,4 +27,4 @@ let testCases =
 [<Test>]
 [<TestCaseSource("testCases")>]
 let ``Checks if brackets are balanced`` expression isBalanced =
-    bracketsIsInBalance expression |> should equal isBalanced
+    bracketsAreInBalance expression |> should equal isBalanced

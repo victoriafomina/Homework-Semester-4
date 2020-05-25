@@ -3,5 +3,5 @@ open BracketBalance
 
 [<EntryPoint>]
 let main argv =
-    printfn "%b" (bracketsIsInBalance ")")
+    printfn "%b" (bracketsAreInBalance "!")
     0
