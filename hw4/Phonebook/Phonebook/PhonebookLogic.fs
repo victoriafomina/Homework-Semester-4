@@ -20,8 +20,30 @@ let readInfoFromFile (fileName : string) store =
     
     let splitIntoListOfStrings (str : string) = [str.[..spaceIndex str]; str.[((spaceIndex str) + 1)..]]
 
+    let parse arrStr =
+        let rec parseRec arrStr store =
+            match arrStr with
+            | [] -> store
+            | h :: t -> parseRec t (splitIntoListOfStrings h :: store)
+        parseRec arrStr []
+
     try
         if store = [] then
-            ((fileName |> File.ReadLines).ToString() |> splitIntoListOfStrings) :: store
+            fileName 
+            |> File.ReadAllLines |> Array.toList |> parse
         else store
-    with | _ -> failwith "File was not open!"
+    with | _ -> failwith "File was not opened or was not handled!"
+
+/// Saves the current data to the file.
+let saveCurrentData (fileName : string) data =
+    let parse listListStr = 
+        let rec parseRec listListStr listStr =
+            match listListStr with
+            | [] -> listStr
+            | h :: t -> parseRec t ((List.head h + " " + List.last h) :: listStr)
+        parseRec listListStr []
+                
+    try
+    // Проблема: пишет не в конец, а заполняет файл заново!!!
+        File.WriteAllLines(fileName, parse data)
+    with | _ -> failwith "File was not opened!"

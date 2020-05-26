@@ -6,8 +6,8 @@ open System.IO
 
 [<EntryPoint>]
 let main argv =
+    saveCurrentData "..\\..\\..\\Phonebook.txt" [["lol"; "123"]]
     printfn "%A" (List.head (List.head (readInfoFromFile "..\\..\\..\\Phonebook.txt" [])))
-    printfn "%s" (Directory.GetCurrentDirectory())
 
 
     0 // return an integer exit code
