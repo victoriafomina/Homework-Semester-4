@@ -6,7 +6,7 @@ open System.IO
 
 [<EntryPoint>]
 let main argv =
-    saveCurrentData "..\\..\\..\\Phonebook.txt" [["lol"; "123"]]
+    saveCurrentData "..\\..\\..\\Phonebook.txt" [["lol"; "123"]; ["meow"; "911"]]
     printfn "%A" (List.head (List.head (readInfoFromFile "..\\..\\..\\Phonebook.txt" [])))
 
 

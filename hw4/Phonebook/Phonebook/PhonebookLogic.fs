@@ -44,6 +44,24 @@ let saveCurrentData (fileName : string) data =
         parseRec listListStr []
                 
     try
-    // Проблема: пишет не в конец, а заполняет файл заново!!!
-        File.WriteAllLines(fileName, parse data)
+        File.AppendAllLines(fileName, parse data)
     with | _ -> failwith "File was not opened!"
+
+/// Add note (name and number).
+let addNote name number = [name; number]
+
+/// Prints the database.
+let printDatabase store =
+    let printList x =
+        printf "%s" (List.head x)  
+        printfn "%s" (List.last x)
+
+    List.iter (fun x -> printList x) store
+
+/// Finds a number by the name.
+let findNumberByName name store =
+    List.filter (fun x -> List.head x = name) store
+
+/// Finds a name by the number.
+let findNameByNumber number store =
+    List.filter (fun x -> List.tail x = number) store
