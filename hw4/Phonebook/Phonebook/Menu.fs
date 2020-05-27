@@ -3,12 +3,9 @@
 open System
 open PhonebookLogic
 
+/// Implements user interface of Phonebook.
 let menu =
-    let name = Console.ReadLine()
-
-    let number = Console.ReadLine()
-
-    let rec menuRec store currentData =
+    let rec menuRec dataFromFile dataNotSavedToFileYet =
         printfn "%s" "1 - exit"
         printfn "%s" "2 - add note (name and number)"
         printfn "%s" "3 - find number by name"
@@ -22,16 +19,48 @@ let menu =
         | "2" ->
             printfn "%s" "Input name"
             printfn "%s" "Input number"
-            menuRec store (addNote name number :: currentData)
+            menuRec dataFromFile (addNote Console.ReadLine Console.ReadLine :: dataNotSavedToFileYet)
         | "3" -> 
             printfn "%s" "Input name"
 
-            if store <> [] then
+            if dataFromFile <> [] then
                 printfn "%s" "Input name"
-                match findNumberByName name store :: currentData with
-                | None -> printfn "%s" "Subscriber with that name does not exists"
-                | Some(number) -> printf "%s" name printfn "%s" number
+                let name = Console.ReadLine
+                match findNumberByName name (dataFromFile :: dataNotSavedToFileYet) with
+                | None -> 
+                    printfn "%s" "Subscriber with that name does not exists"
+                | Some(number) -> 
+                    printf "%A%s" name " " 
+                    printfn "%A" number
             else
+                printfn "%s" "The database is empty"
+            menuRec dataFromFile dataNotSavedToFileYet
+        | "4" ->
+            printfn "%s" "Input number"
+
+            if dataFromFile <> [] then
+                printfn "%s" "Input number"
+                match findNameByNumber number (dataFromFile :: dataNotSavedToFileYet) with
+                | None -> 
+                    printfn "%s" "Subscriber with that number does not exists"
+                | Some(name) -> 
+                    printf "%A%s" name " "
+                    printfn "%A" number
+            else
+                printfn "%s" "The database is empty"
+            menuRec dataFromFile dataNotSavedToFileYet
+        | "5" -> 
+            printDatabase (dataFromFile :: dataNotSavedToFileYet)
+            menuRec dataFromFile dataNotSavedToFileYet
+        | "6" ->
+            printfn "%s" "Input the name of the file"
+            saveCurrentData name dataNotSavedToFileYet
+            menuRec dataFromFile []
+        | "7" ->
+            printfn "%s" "Input the name of the file"
+            menuRec (readInfoFromFile name) dataNotSavedToFileYet
+        | _ -> 
+            printfn "%s" "Incorrect input"
+            menuRec dataFromFile dataNotSavedToFileYet
         
-        
-    menuRec true
+    menuRec [] []

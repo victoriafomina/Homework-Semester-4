@@ -3,11 +3,11 @@
 open System
 open PhonebookLogic
 open System.IO
+open Menu
 
 [<EntryPoint>]
 let main argv =
-    saveCurrentData "..\\..\\..\\Phonebook.txt" [["lol"; "123"]; ["meow"; "911"]]
-    printfn "%A" (List.head (List.head (readInfoFromFile "..\\..\\..\\Phonebook.txt" [])))
+    printfn "%d" menu
 
 
     0 // return an integer exit code

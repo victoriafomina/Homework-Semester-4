@@ -54,7 +54,7 @@ let addNote name number = [name; number]
 /// Prints the database.
 let printDatabase store =
     let printList x =
-        printf "%s" (List.head x)  
+        printf "%s%s" (List.head x) ""  
         printfn "%s" (List.last x)
 
     List.iter (fun x -> printList x) store
@@ -69,10 +69,10 @@ let numberExists number store =
 
 /// Finds a number by the name.
 let findNumberByName name store =
-    if nameExists name store then Some(List.filter (fun x -> List.head x = name) store)
+    if nameExists name store then Some(List.find (fun x -> List.head x = name) store |> List.head)
     else None
 
 /// Finds a name by the number.
 let findNameByNumber number store =
-    if numberExists number store then Some(List.filter (fun x -> List.last x = number) store)
+    if numberExists number store then Some(List.find (fun x -> List.last x = number) store |> List.last)
     else None
