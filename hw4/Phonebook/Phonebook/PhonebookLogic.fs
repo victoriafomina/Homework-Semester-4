@@ -3,7 +3,8 @@
 open System.IO
 open Microsoft.FSharp.Core.Operators
 
-(*Написать программу - телефонный справочник. Она должна уметь хранить имена и номера 
+(*
+Написать программу - телефонный справочник. Она должна уметь хранить имена и номера 
 телефонов, в интерактивном режиме осуществлять следующие операции:
 1. выйти
 2. добавить запись (имя и телефон)
@@ -29,7 +30,7 @@ let readInfoFromFile (fileName : string) store =
 
     try
         if store = [] then
-            fileName 
+            fileName
             |> File.ReadAllLines |> Array.toList |> parse
         else store
     with | _ -> failwith "File was not opened or was not handled!"
@@ -45,7 +46,7 @@ let saveCurrentData (fileName : string) data =
                 
     try
         File.AppendAllLines(fileName, parse data)
-    with | _ -> failwith "File was not opened!"
+    with | _ -> failwith "File was not opened or was not handled!"
 
 /// Add note (name and number).
 let addNote name number = [name; number]
@@ -58,10 +59,20 @@ let printDatabase store =
 
     List.iter (fun x -> printList x) store
 
+/// Checks if the name exists.
+let nameExists name store =
+    List.exists (fun x -> List.head x = name) store
+
+/// Checks if the number exists.
+let numberExists number store =
+    List.exists (fun x -> List.last x = number) store
+
 /// Finds a number by the name.
 let findNumberByName name store =
-    List.filter (fun x -> List.head x = name) store
+    if nameExists name store then Some(List.filter (fun x -> List.head x = name) store)
+    else None
 
 /// Finds a name by the number.
 let findNameByNumber number store =
-    List.filter (fun x -> List.tail x = number) store
+    if numberExists number store then Some(List.filter (fun x -> List.last x = number) store)
+    else None
