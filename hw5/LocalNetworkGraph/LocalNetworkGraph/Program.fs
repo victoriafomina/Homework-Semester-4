@@ -1,9 +1,9 @@
 ﻿// Learn more about F# at http://fsharp.org
 
 open System
+open LocalNetwork
 
 [<EntryPoint>]
 let main argv =
-    printfn "%d" <| (new Random()).Next(0, 9)
-    printfn "%f" <| (new Random()).n
+    printfn "%A" <| LocalNetwork([[1]; [0]], ["Linux"; "Windows"], [0.3; 0.7]).Infected
     0 // return an integer exit code
