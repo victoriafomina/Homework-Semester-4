@@ -7,7 +7,7 @@ type Expression =
     | Multiply of Expression * Expression
     | Divide of Expression * Expression
 
-/// <summary>Calculates an expression represented in discriminated unions.<\summary>
+/// Calculates an expression represented in discriminated unions.
 let rec calculate exp =
     match exp with
     | Number num -> num

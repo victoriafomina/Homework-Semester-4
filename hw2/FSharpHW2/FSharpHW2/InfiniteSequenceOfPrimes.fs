@@ -1,11 +1,9 @@
 ﻿module InfiniteSequenceOfPrimes
 
-/// <summary>The function generates infinite sequence of primes.</summary>
+/// The function generates infinite sequence of primes.
 let infiniteSeqOfPrimes =
     let rec isPrime n acc = 
-        if n = 2 then true
-        elif float acc > sqrt (float n) then true
-        elif n % acc = 0 then false
+        if n = 2 || acc * acc > n || n % acc = 0 then true
         else isPrime n (acc + 1)
 
     let rec findNPrime acc currN = 
