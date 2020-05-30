@@ -5,21 +5,21 @@ open FsUnit
 open NUnit.Framework
 
 [<Test>]
-let ``Infinite sequence of primes should return 0`` () =
-    Seq.findIndex(fun x -> x = 2) infiniteSeqOfPrimes |> should equal 0
-
-[<Test>]
-let ``Infinite sequence of primes should return 1`` () =
-    Seq.findIndex(fun x -> x = 3) infiniteSeqOfPrimes |> should equal 1
+let ``Infinite sequence of primes should return 5`` () =
+    Seq.item 0 infiniteSeqOfPrimes |> should equal 2
 
 [<Test>]
 let ``Infinite sequence of primes should return 3`` () =
-    Seq.findIndex(fun x -> x = 7) infiniteSeqOfPrimes |> should equal 3
+    Seq.item 1 infiniteSeqOfPrimes |> should equal 3
 
 [<Test>]
-let ``Infinite sequence of primes should return 6`` () =
-    Seq.findIndex(fun x -> x = 17) infiniteSeqOfPrimes |> should equal 6
+let ``Infinite sequence of primes should return 7`` () =
+    Seq.item 3 infiniteSeqOfPrimes |> should equal 7
 
 [<Test>]
-let ``Infinite sequence of primes should return 1128`` () =
-    Seq.findIndex(fun x -> x = 9973) infiniteSeqOfPrimes |> should equal 1228
+let ``Infinite sequence of primes should return 17`` () =
+    Seq.item 6 infiniteSeqOfPrimes |> should equal 17
+
+[<Test>]
+let ``Infinite sequence of primes should return 9973`` () =
+    Seq.item 1228 infiniteSeqOfPrimes |> should equal 9973
