@@ -5,6 +5,9 @@ open PhonebookLogic
 
 /// Implements user interface of Phonebook.
 let menu =
+    let name = Console.ReadLine
+    let number = Console.ReadLine
+
     let rec menuRec dataFromFile dataNotSavedToFileYet =
         printfn "%s" "1 - exit"
         printfn "%s" "2 - add note (name and number)"
@@ -24,8 +27,7 @@ let menu =
             printfn "%s" "Input name"
 
             if dataFromFile <> [] then
-                printfn "%s" "Input name"
-                let name = Console.ReadLine
+                printfn "%s" "Input name"                
                 match findNumberByName name (dataFromFile :: dataNotSavedToFileYet) with
                 | None -> 
                     printfn "%s" "Subscriber with that name does not exists"
@@ -38,7 +40,7 @@ let menu =
         | "4" ->
             printfn "%s" "Input number"
 
-            if dataFromFile <> [] then
+            if not dataFromFile.IsEmpty then
                 printfn "%s" "Input number"
                 match findNameByNumber number (dataFromFile :: dataNotSavedToFileYet) with
                 | None -> 
