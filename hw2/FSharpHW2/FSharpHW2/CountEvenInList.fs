@@ -1,10 +1,5 @@
 ﻿module CountEvenInList
 
-// Реализовать три варианта функции, подсчитывающей количество 
-// четных чисел в списке (с использованием стандартных функций map, filter, fold). 
-// Использование рекурсии не допускается, зато нужен FsCheck для проверки функций 
-// на эквивалентность
-
 /// Counts even numbers in the list using map.
 let countEvenInListMap list =
     if list = [] then 0

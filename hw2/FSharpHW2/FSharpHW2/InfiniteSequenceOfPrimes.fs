@@ -1,6 +1,7 @@
 ﻿module InfiniteSequenceOfPrimes
 
 /// The function generates infinite sequence of primes.
+(*
 let infiniteSeqOfPrimes =
     let rec isPrime n acc = 
         if n = 2 || acc * acc > n || n % acc = 0 then true
@@ -14,3 +15,13 @@ let infiniteSeqOfPrimes =
     Seq.initInfinite(fun index ->
         let n = index + 1
         findNPrime n 2)
+*)
+
+/// The function generates infinite sequence of primes.
+let infiniteSeqOfPrimes =
+    let rec isPrime n acc = 
+        if n = 2 || acc * acc > n then true
+        elif n % acc = 0 then false
+        else isPrime n (acc + 1)
+
+    Seq.initInfinite(fun index -> index + 1) |> Seq.filter(fun x -> isPrime x 2 && x <> 1)

@@ -1,5 +1,6 @@
 ﻿module ParseTree
 
+/// Implements type expression.
 type Expression =
     | Number of int
     | Add of Expression * Expression

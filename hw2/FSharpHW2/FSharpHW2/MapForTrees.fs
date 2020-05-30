@@ -1,5 +1,6 @@
 ﻿module MapForTrees
 
+/// Implements type Tree.
 type Tree<'a> =
 | Node of 'a * Tree<'a> * Tree<'a>
 | Leaf
