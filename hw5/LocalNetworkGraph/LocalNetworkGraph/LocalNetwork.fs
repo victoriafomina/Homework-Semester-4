@@ -59,7 +59,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
             else infectFirstRec <| (acc + 1) % numberOfComputers
         infectFirstRec 0
 
-    /// Infects all the vertexes that are possible to infect. НЕЛЬЗЯ ЛИ БЕЗ АККУМУЛЯТОРА?
+    /// Infects all the vertexes that are possible to infect.
     let rec infectAll =
         if not networkCanBeInfected then infected
         else
