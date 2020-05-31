@@ -26,14 +26,14 @@ let testCases2 =
 [<Test>]
 [<TestCaseSource("testCases1")>]
 let ``Checks if contains vertexes that should be infected`` communication operSys probabOfInf infected =
-    LocalNetwork(communication, operSys, probabOfInf).Infect.TrueForAll(fun x -> List.contains x infected) |> should equal true
+    LocalNetwork(communication, operSys, probabOfInf).Infected.TrueForAll(fun x -> List.contains x infected) |> should equal true
 
 [<Test>]
 [<TestCaseSource("testCases1")>]
 let ``Checks if vertexes that should be infected are contained in result`` communication operSys probabOfInf infected =
-    List.forall(fun x -> LocalNetwork(communication, operSys, probabOfInf).Infect.Contains(x)) infected |> should equal true
+    List.forall(fun x -> LocalNetwork(communication, operSys, probabOfInf).Infected.Contains(x)) infected |> should equal true
 
 [<Test>]
 [<TestCaseSource("testCases2")>]
 let ``Checks if the algorithm works correctly when probabylity of infection is 0 for all computers`` communication operSys probabOfInf =
-    LocalNetwork(communication, operSys, probabOfInf).Infect.Count = 0 |> should equal true
+    LocalNetwork(communication, operSys, probabOfInf).Infected.Count = 0 |> should equal true

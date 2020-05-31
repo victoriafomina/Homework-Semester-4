@@ -1,7 +1,7 @@
 ﻿module LocalNetwork
 
 open System
-open System.Collections.Generic
+open System.Collections.Generic   
 
 
 /// Local network working process model.
@@ -59,6 +59,15 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
             else infectFirstRec <| (acc + 1) % numberOfComputers
         infectFirstRec 0
 
+    /// Prints the information about the state of the network.
+    let printInf =
+        let rec printRec currVertex =
+            if currVertex < numberOfComputers then 
+                if infected.Contains(currVertex) then printfn "%s%d" "INFECTED: " currVertex
+                else printfn "%s%d" "Not infected: " currVertex
+                printRec (currVertex + 1)
+        printRec 0
+
     /// Infects all the vertexes that are possible to infect.
     let rec infectAll =
         if not networkCanBeInfected then infected
@@ -66,17 +75,16 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         let rec infectAllRec acc =            
             if infected.Count = 0 then 
                 infected.Add(infectFirst)
+                printInf
                 infectAllRec 0
             elif (infected.Count = numberOfComputers || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
             else 
                 infected.ForEach(fun x -> tryInfectNeighbours x)
                 infected.AddRange(newInfected);
                 newInfected.Clear();
+                printInf
                 infectAllRec 0
-        infectAllRec 0
-    
-    /// Infects all the computers with virus. Returns infected.
-    member public this.Infect = infectAll
-
-    /// Returns the infected computers.
-    member public this.Infected = infected
+        infectAllRec 0    
+        
+    /// Infects all the computers with virus. Returns infected computers.
+    member public this.Infected = infectAll
