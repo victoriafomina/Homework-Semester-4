@@ -73,7 +73,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         if not networkCanBeInfected then infected
         else
         let rec infectAllRec acc =            
-            if infected.Count = 0 then 
+            if infected.Count = 0 then
                 infected.Add(infectFirst)
                 printInf
                 infectAllRec 0
