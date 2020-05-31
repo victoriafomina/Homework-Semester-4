@@ -55,16 +55,18 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     let infectFirst = 
         let rec infectFirstRec acc =
             if isInfectedThisStep acc then acc
-            else infectFirstRec (acc + 1) % numberOfComputers
+            else infectFirstRec <| (acc + 1) % numberOfComputers
         infectFirstRec 0
 
     /// Infects all the vertexes that are possible to infect. НЕЛЬЗЯ ЛИ БЕЗ АККУМУЛЯТОРА?
     let infectAll =
+        if not networkCanBeInfected then infected
+        else
         let rec infectAllRec acc =            
             if infected.Count = 0 then 
                 infected.Add(infectFirst)
                 infectAllRec 0
-            elif infected.Count = numberOfComputers || not (infected.Exists(fun x -> neighboursCanBeInfected x)) then 0
+            elif infected.Count = numberOfComputers || not (infected.Exists(fun x -> neighboursCanBeInfected x)) then infected
             else 
                 infected.ForEach(fun x -> tryInfectNeighbours x)
                 infected.AddRange(newInfected);
@@ -72,8 +74,8 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
                 infectAllRec 0
         infectAllRec 0
     
-    /// Infects all the computers with virus.
-    member public this.Infect = if networkCanBeInfected then infectAll else -1
+    /// Infects all the computers with virus. Returns infected.
+    member public this.Infect = infectAll
 
-    /// Returns the infected computers numbers.
+    /// Returns the infected computers.
     member public this.Infected = infected
