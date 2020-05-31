@@ -45,11 +45,12 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
 
     /// Checks if the neighbours of the computer can be infected.
     let neighboursCanBeInfected vertex =
-        List.exists (fun x -> abs(probabilityInfectionForOS.[x]) > 0.001) computersCommunication.[vertex]
+        List.exists (fun x -> not <| infected.Contains x && abs(probabilityOfInfection x) > 0.001) computersCommunication.[vertex]
 
     /// Tries to infect neighbours.
     let tryInfectNeighbours vertex =
-        computersCommunication.[vertex] |> List.iter (fun x -> if not (infected.Contains x) && isInfectedThisStep x then newInfected.Add x)
+        computersCommunication.[vertex] 
+        |> List.iter (fun x -> if not (infected.Contains x) && isInfectedThisStep x then newInfected.Add x)
 
     /// Infects first computer.
     let infectFirst = 
@@ -59,14 +60,14 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         infectFirstRec 0
 
     /// Infects all the vertexes that are possible to infect. НЕЛЬЗЯ ЛИ БЕЗ АККУМУЛЯТОРА?
-    let infectAll =
+    let rec infectAll =
         if not networkCanBeInfected then infected
         else
         let rec infectAllRec acc =            
             if infected.Count = 0 then 
                 infected.Add(infectFirst)
                 infectAllRec 0
-            elif infected.Count = numberOfComputers || not (infected.Exists(fun x -> neighboursCanBeInfected x)) then infected
+            elif (infected.Count = numberOfComputers || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
             else 
                 infected.ForEach(fun x -> tryInfectNeighbours x)
                 infected.AddRange(newInfected);
