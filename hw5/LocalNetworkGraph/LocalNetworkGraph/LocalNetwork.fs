@@ -14,7 +14,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     let mutable newInfected = new List<int>()
 
     /// Number of computers in local network.
-    let numberOfComputers = List.length computersCommunication
+    let numberOfComputers () = List.length computersCommunication
 
     /// Random numbers sensors for computers. On every step check if the computer is infected.
     let rndSensorValues = new List<Random>()
@@ -22,7 +22,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     /// Initializes the list of random numbers sensors.
     let init = 
         let rec initRec acc =
-            if acc = numberOfComputers then acc
+            if acc = numberOfComputers() then acc
             else 
                 rndSensorValues.Add(new Random())
                 initRec (acc + 1)
@@ -56,16 +56,17 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     let infectFirst = 
         let rec infectFirstRec acc =
             if isInfectedThisStep acc then acc
-            else infectFirstRec <| (acc + 1) % numberOfComputers
+            else infectFirstRec <| (acc + 1) % numberOfComputers()
         infectFirstRec 0
 
     /// Prints the information about the state of the network.
-    let printInf =
+    let printInf () =
         let rec printRec currVertex =
-            if currVertex < numberOfComputers then 
+            if currVertex < numberOfComputers() then 
                 if infected.Contains(currVertex) then printfn "%s%d" "INFECTED: " currVertex
                 else printfn "%s%d" "Not infected: " currVertex
                 printRec (currVertex + 1)
+                printf "%s" "\n"
         printRec 0
 
     /// Infects all the vertexes that are possible to infect.
@@ -75,14 +76,14 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         let rec infectAllRec acc =            
             if infected.Count = 0 then
                 infected.Add(infectFirst)
-                printInf
+                printInf()
                 infectAllRec 0
-            elif (infected.Count = numberOfComputers || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
+            elif (infected.Count = numberOfComputers() || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
             else 
                 infected.ForEach(fun x -> tryInfectNeighbours x)
                 infected.AddRange(newInfected);
                 newInfected.Clear();
-                printInf
+                printInf()
                 infectAllRec 0
         infectAllRec 0    
         
