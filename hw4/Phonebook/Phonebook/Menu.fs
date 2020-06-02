@@ -27,7 +27,7 @@ let menu =
             if dataFromFile <> [] then
                 printfn "%s" "Input name" 
                 let name = Console.ReadLine()
-                match findNumberByName <| dataFromFile :: dataNotSavedToFileYet with
+                match findNumberByName (dataFromFile @ dataNotSavedToFileYet) with
                 | None -> 
                     printfn "%s" "Subscriber with that name does not exists"
                     menuRec dataFromFile dataNotSavedToFileYet
@@ -45,7 +45,7 @@ let menu =
             if not dataFromFile.IsEmpty then
                 printfn "%s" "Input number"
                 let number = Console.ReadLine()
-                match findNameByNumber number (dataFromFile :: dataNotSavedToFileYet) with
+                match findNameByNumber number (dataFromFile @ dataNotSavedToFileYet) with
                 | None -> 
                     printfn "%s" "Subscriber with that number does not exists"
                 | Some(name) -> 
@@ -55,7 +55,7 @@ let menu =
                 printfn "%s" "The database is empty"
             menuRec dataFromFile dataNotSavedToFileYet
         | "5" -> 
-            printDatabase <| dataFromFile :: dataNotSavedToFileYet
+            printDatabase (dataFromFile @ dataNotSavedToFileYet)
             menuRec dataFromFile dataNotSavedToFileYet
         | "6" ->
             printfn "%s" "Input the name of the file"
