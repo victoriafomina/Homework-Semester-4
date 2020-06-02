@@ -5,8 +5,6 @@ open PhonebookLogic
 
 /// Implements user interface of Phonebook.
 let menu =
-    let name() = Console.ReadLine
-    let number() = Console.ReadLine
 
     let rec menuRec (dataFromFile : string list list) (dataNotSavedToFileYet : string list list) =
         printfn "%s" "1 - exit"
@@ -29,7 +27,7 @@ let menu =
             if dataFromFile <> [] then
                 printfn "%s" "Input name" 
                 let nm = Console.ReadLine
-                match findNumberByNamenm <| dataFromFile :: dataNotSavedToFileYet with
+                match findNumberByName <| dataFromFile :: dataNotSavedToFileYet with
                 | None -> 
                     printfn "%s" "Subscriber with that name does not exists"
                     menuRec dataFromFile dataNotSavedToFileYet
@@ -46,7 +44,7 @@ let menu =
 
             if not dataFromFile.IsEmpty then
                 printfn "%s" "Input number"
-                match findNameByNumber (number()) (dataFromFile :: dataNotSavedToFileYet) with
+                match findNameByNumber (Console.ReadLine()) (dataFromFile :: dataNotSavedToFileYet) with
                 | None -> 
                     printfn "%s" "Subscriber with that number does not exists"
                 | Some(name) -> 
@@ -60,11 +58,11 @@ let menu =
             menuRec dataFromFile dataNotSavedToFileYet
         | "6" ->
             printfn "%s" "Input the name of the file"
-            saveCurrentData name() dataNotSavedToFileYet
+            saveCurrentData (Console.ReadLine()) dataNotSavedToFileYet
             menuRec dataFromFile []
         | "7" ->
             printfn "%s" "Input the name of the file"
-            menuRec (readInfoFromFile name()) dataNotSavedToFileYet
+            menuRec (readInfoFromFile (Console.ReadLine())) dataNotSavedToFileYet
         | _ -> 
             printfn "%s" "Incorrect input"
             menuRec dataFromFile dataNotSavedToFileYet

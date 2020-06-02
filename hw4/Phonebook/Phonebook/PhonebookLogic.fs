@@ -16,7 +16,7 @@ open Microsoft.FSharp.Core.Operators
 *)
 
 /// Reads the notes from file.
-let readInfoFromFile (fileName : string) store =
+let readInfoFromFile (fileName : string) =
     let spaceIndex = Seq.findIndex(fun x -> x = ' ')
     
     let splitIntoListOfStrings (str : string) = [str.[..spaceIndex str]; str.[((spaceIndex str) + 1)..]]
@@ -29,10 +29,7 @@ let readInfoFromFile (fileName : string) store =
         parseRec arrStr []
 
     try
-        if store = [] then
-            fileName
-            |> File.ReadAllLines |> Array.toList |> parse
-        else store
+        fileName |> File.ReadAllLines |> Array.toList |> parse
     with | _ -> failwith "File was not opened or was not handled!"
 
 /// Saves the current data to the file.
