@@ -5,10 +5,10 @@ open PhonebookLogic
 
 /// Implements user interface of Phonebook.
 let menu =
-    let name = Console.ReadLine
-    let number = Console.ReadLine
+    let name() = Console.ReadLine
+    let number() = Console.ReadLine
 
-    let rec menuRec dataFromFile dataNotSavedToFileYet =
+    let rec menuRec (dataFromFile : string list list) (dataNotSavedToFileYet : string list list) =
         printfn "%s" "1 - exit"
         printfn "%s" "2 - add note (name and number)"
         printfn "%s" "3 - find number by name"
@@ -22,27 +22,31 @@ let menu =
         | "2" ->
             printfn "%s" "Input name"
             printfn "%s" "Input number"
-            menuRec dataFromFile (addNote Console.ReadLine Console.ReadLine :: dataNotSavedToFileYet)
+            menuRec <| dataFromFile dataNotSavedToFileYet :: (addNote name() number())
         | "3" -> 
             printfn "%s" "Input name"
 
             if dataFromFile <> [] then
-                printfn "%s" "Input name"                
-                match findNumberByName name (dataFromFile :: dataNotSavedToFileYet) with
+                printfn "%s" "Input name" 
+                let nm = Console.ReadLine
+                match findNumberByNamenm <| dataFromFile :: dataNotSavedToFileYet with
                 | None -> 
                     printfn "%s" "Subscriber with that name does not exists"
+                    menuRec dataFromFile dataNotSavedToFileYet
+
                 | Some(number) -> 
                     printf "%A%s" name " " 
                     printfn "%A" number
+                    menuRec dataFromFile dataNotSavedToFileYet
             else
                 printfn "%s" "The database is empty"
-            menuRec dataFromFile dataNotSavedToFileYet
+                menuRec dataFromFile dataNotSavedToFileYet
         | "4" ->
             printfn "%s" "Input number"
 
             if not dataFromFile.IsEmpty then
                 printfn "%s" "Input number"
-                match findNameByNumber number (dataFromFile :: dataNotSavedToFileYet) with
+                match findNameByNumber (number()) (dataFromFile :: dataNotSavedToFileYet) with
                 | None -> 
                     printfn "%s" "Subscriber with that number does not exists"
                 | Some(name) -> 
@@ -52,15 +56,15 @@ let menu =
                 printfn "%s" "The database is empty"
             menuRec dataFromFile dataNotSavedToFileYet
         | "5" -> 
-            printDatabase (dataFromFile :: dataNotSavedToFileYet)
+            printDatabase <| dataFromFile :: dataNotSavedToFileYet
             menuRec dataFromFile dataNotSavedToFileYet
         | "6" ->
             printfn "%s" "Input the name of the file"
-            saveCurrentData name dataNotSavedToFileYet
+            saveCurrentData name() dataNotSavedToFileYet
             menuRec dataFromFile []
         | "7" ->
             printfn "%s" "Input the name of the file"
-            menuRec (readInfoFromFile name) dataNotSavedToFileYet
+            menuRec (readInfoFromFile name()) dataNotSavedToFileYet
         | _ -> 
             printfn "%s" "Incorrect input"
             menuRec dataFromFile dataNotSavedToFileYet
