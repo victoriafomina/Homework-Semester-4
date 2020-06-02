@@ -3,23 +3,11 @@
 open System.IO
 open Microsoft.FSharp.Core.Operators
 
-(*
-Написать программу - телефонный справочник. Она должна уметь хранить имена и номера 
-телефонов, в интерактивном режиме осуществлять следующие операции:
-1. выйти
-2. добавить запись (имя и телефон)
-3. найти телефон по имени
-4. найти имя по телефону
-5. вывести всё текущее содержимое базы
-6. сохранить текущие данные в файл
-7. считать данные из файла
-*)
-
 /// Reads the notes from file.
 let readInfoFromFile (fileName : string) =
     let spaceIndex = Seq.findIndex(fun x -> x = ' ')
     
-    let splitIntoListOfStrings (str : string) = [str.[..spaceIndex str]; str.[((spaceIndex str) + 1)..]]
+    let splitIntoListOfStrings (str : string) = [str.[..(spaceIndex str) - 1]; str.[((spaceIndex str) + 1)..]]
 
     let parse arrStr =
         let rec parseRec arrStr store =
@@ -51,7 +39,7 @@ let addNote name number = [name; number]
 /// Prints the database.
 let printDatabase store =
     let printList x =
-        printf "%s%s" (List.head x) ""  
+        printf "%s%s" (List.head x) " "  
         printfn "%s" (List.last x)
 
     List.iter (fun x -> printList x) store
@@ -66,10 +54,10 @@ let numberExists number store =
 
 /// Finds a number by the name.
 let findNumberByName name store =
-    if nameExists name store then Some(List.find (fun x -> List.head x = name) store |> List.head)
+    if nameExists name store then Some(List.find (fun x -> List.head x = name) store |> List.last)
     else None
 
 /// Finds a name by the number.
 let findNameByNumber number store =
-    if numberExists number store then Some(List.find (fun x -> List.last x = number) store |> List.last)
+    if numberExists number store then Some(List.find (fun x -> List.last x = number) store |> List.head)
     else None
