@@ -34,7 +34,7 @@ let saveCurrentData (fileName : string) data =
     with | _ -> failwith "File was not opened or was not handled!"
 
 /// Add note (name and number).
-let addNote name number = [name; number]
+let addNote (name : string) (number : string) = [name; number]
 
 /// Prints the database.
 let printDatabase store =
