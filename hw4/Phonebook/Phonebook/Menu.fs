@@ -22,7 +22,7 @@ let menu =
         | "2" ->
             printfn "%s" "Input name"
             printfn "%s" "Input number"
-            menuRec <| dataFromFile dataNotSavedToFileYet :: (addNote name() number())
+            menuRec dataFromFile ((addNote (Console.ReadLine()) (Console.ReadLine())) :: dataNotSavedToFileYet)
         | "3" -> 
             printfn "%s" "Input name"
 
