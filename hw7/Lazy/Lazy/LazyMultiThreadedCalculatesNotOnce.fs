@@ -1,5 +1,6 @@
 ﻿module LazyMultiThreadedCalculatesNotOnce
 
+open ILazy
 open System.Threading
 
 /// Lazy computations interface.
