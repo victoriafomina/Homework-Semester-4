@@ -10,8 +10,4 @@
     <Compile Include="CalculateStrings.fs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CalculateStringsTests\CalculateStringsTests.fsproj" />
-  </ItemGroup>
-
 </Project>
