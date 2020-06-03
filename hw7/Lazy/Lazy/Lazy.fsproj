@@ -6,9 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="LazyMultiThreadedCalculatesNotOnce.fs" />
+    <Compile Include="ILazy.fs" />
+    <Compile Include="LazyMultiThreadedCalculatesOnce.fs" />
     <Compile Include="Lazy.fs" />
     <Compile Include="LazyFactory.fs" />
-    <Compile Include="ILazy.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

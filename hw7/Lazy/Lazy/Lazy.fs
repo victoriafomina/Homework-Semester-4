@@ -1,11 +1,19 @@
 ﻿module Lazy
 
-/// Lazy computations interface.
-type ILazy<'a> =
-    abstract member Get : unit -> 'a
+open ILazy
 
+/// Implements ILazy interface. Lets make single-thread late initialization.
 type Lazy<'a>(supplier : unit -> 'a) =
-    let value = supplier
+    let supp = supplier 
+    let mutable isCalculated =  false
+
+    [<DefaultValue>]
+    val mutable value : 'a    
 
     interface ILazy<'a> with
-        member this.Get () = value ()
+        /// Returns value of the object.
+        member this.Get () =
+            if not isCalculated then 
+                value <- supp ()
+                isCalculated <- true
+            value
