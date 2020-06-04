@@ -12,14 +12,12 @@ type ILazy<'a> =
 type LazyMultiThreadedCalculatesNotOnce<'a>(supplier : unit -> 'a) =
     let supp = supplier
     let mutable isCalculated = 0
-
-    [<DefaultValue>]
-    val mutable value : 'a
+    let mutable value = None
 
     interface ILazy<'a> with
     /// Returns value of the object.
     member this.Get () =
         while 0 = Interlocked.Exchange(ref isCalculated, 1) do
-            value <- supp ()
+            value <- Some(supp ())
             Interlocked.Exchange(ref isCalculated, 1)
-        value
+        value.Value

@@ -7,16 +7,14 @@ open ILazy
 type LazyMultiThreadedCalculatesOnce<'a> (supplier : unit -> 'a) =
     let supp = supplier 
     let mutable isCalculated = false
-
-    [<DefaultValue>]
-    val mutable value : 'a
+    let mutable value = None
 
     interface ILazy<'a> with
         /// Returns value of the object.
         member this.Get () = 
             if not (Volatile.Read(ref isCalculated)) then 
                 Monitor.Enter(isCalculated)
-                value <- supp ()
+                value <- Some(supp ())
                 Volatile.Write(ref isCalculated, true)
                 Monitor.Exit(isCalculated)
-            value
+            value.Value

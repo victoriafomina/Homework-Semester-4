@@ -6,14 +6,12 @@ open ILazy
 type Lazy<'a>(supplier : unit -> 'a) =
     let supp = supplier 
     let mutable isCalculated =  false
-
-    [<DefaultValue>]
-    val mutable value : 'a    
+    let mutable value = None  
 
     interface ILazy<'a> with
         /// Returns value of the object.
         member this.Get () =
             if not isCalculated then 
-                value <- supp ()
+                value <- Some(supp ())
                 isCalculated <- true
-            value
+            value.Value
