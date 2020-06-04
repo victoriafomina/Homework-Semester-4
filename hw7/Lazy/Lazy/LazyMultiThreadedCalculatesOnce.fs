@@ -8,13 +8,13 @@ type LazyMultiThreadedCalculatesOnce<'a> (supplier : unit -> 'a) =
     let supp = supplier 
     let mutable isCalculated = false
     let mutable value = None
+    let locker = new obj()
 
     interface ILazy<'a> with
         /// Returns value of the object.
-        member this.Get () = 
+        member this.Get () =
             if not (Volatile.Read(ref isCalculated)) then 
-                Monitor.Enter(isCalculated)
+                lock (locker) <| ignore
                 value <- Some(supp ())
-                Volatile.Write(ref isCalculated, true)
-                Monitor.Exit(isCalculated)
+                isCalculated <- true
             value.Value
