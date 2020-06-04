@@ -8,10 +8,10 @@ open System.Collections.Generic
 type LocalNetwork(computersCommunication: int list list, OSOfComputers: string list, probabilityInfectionForOS: float list) =
 
     /// Infected computers.
-    let mutable infected = new List<int>()
+    let infected = new List<int>()
 
     /// Infected this step.
-    let mutable newInfected = new List<int>()
+    let newInfected = new List<int>()
 
     /// Number of computers in local network.
     let numberOfComputers () = List.length computersCommunication
