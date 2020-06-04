@@ -16,19 +16,8 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     /// Number of computers in local network.
     let numberOfComputers () = List.length computersCommunication
 
-    /// Random numbers sensors for computers. On every step check if the computer is infected.
-    let rndSensorValues = new List<Random>()
-
-    /// Initializes the list of random numbers sensors.
-    let init = 
-        let rec initRec acc =
-            if acc = numberOfComputers() then acc
-            else 
-                rndSensorValues.Add(new Random())
-                initRec (acc + 1)
-        initRec 0
-
-    do init |> ignore
+    /// Random number sensor for computers. On every step check if the computer is infected.
+    let rndSensorValue = new Random()
 
     /// Returns the probability to be infected for computer with specific OS.
     let probabylityOfInfectionForOS operSys = probabilityInfectionForOS.[List.findIndex (fun x -> x = operSys) OSOfComputers] * 100.0
@@ -38,7 +27,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
 
     /// Checks if the current step infects computer.
     let isInfectedThisStep vertex =
-        (probabilityOfInfection vertex).CompareTo(double(rndSensorValues.[vertex].Next(0, 100))) >= 0
+        probabilityOfInfection vertex >= double(rndSensorValue.Next(0, 100))
 
     /// Checks if the network can be infected.
     let networkCanBeInfected = List.exists (fun x -> abs(x) > 0.001) probabilityInfectionForOS
@@ -53,7 +42,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         |> List.iter (fun x -> if not (infected.Contains x) && isInfectedThisStep x then newInfected.Add x)
 
     /// Infects first computer.
-    let infectFirst = 
+    let infectFirst () = 
         let rec infectFirstRec acc =
             if isInfectedThisStep acc then acc
             else infectFirstRec <| (acc + 1) % numberOfComputers()
@@ -75,15 +64,15 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         else
         let rec infectAllRec acc =            
             if infected.Count = 0 then
-                infected.Add(infectFirst)
-                printInf()
+                infected.Add(infectFirst ())
+                printInf ()
                 infectAllRec 0
-            elif (infected.Count = numberOfComputers() || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
+            elif (infected.Count = numberOfComputers () || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
             else 
                 infected.ForEach(fun x -> tryInfectNeighbours x)
-                infected.AddRange(newInfected);
-                newInfected.Clear();
-                printInf()
+                infected.AddRange(newInfected)
+                newInfected.Clear()
+                printInf ()
                 infectAllRec 0
         infectAllRec 0    
         
