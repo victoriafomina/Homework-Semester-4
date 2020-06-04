@@ -1,17 +1,16 @@
 ﻿module LocalNetwork
 
 open System
-open System.Collections.Generic   
 
 
 /// Local network working process model.
 type LocalNetwork(computersCommunication: int list list, OSOfComputers: string list, probabilityInfectionForOS: float list) =
 
     /// Infected computers.
-    let infected = new List<int>()
+    let mutable infected = []
 
     /// Infected this step.
-    let newInfected = new List<int>()
+    let mutable newInfected = []
 
     /// Number of computers in local network.
     let numberOfComputers () = List.length computersCommunication
@@ -34,12 +33,14 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
 
     /// Checks if the neighbours of the computer can be infected.
     let neighboursCanBeInfected vertex =
-        List.exists (fun x -> not <| infected.Contains x && abs(probabilityOfInfection x) > 0.001) computersCommunication.[vertex]
+        List.exists (fun x -> not (List.contains x infected) && abs(probabilityOfInfection x) > 0.001) computersCommunication.[vertex]
 
     /// Tries to infect neighbours.
     let tryInfectNeighbours vertex =
-        computersCommunication.[vertex] 
-        |> List.iter (fun x -> if not (infected.Contains x) && isInfectedThisStep x then newInfected.Add x)
+        let tryInfectNeighboursRec vertex =
+            computersCommunication.[vertex]
+            |> List.iter (fun x -> if not (List.contains x infected) && isInfectedThisStep x then newInfected <- newInfected @ [x])
+        tryInfectNeighboursRec vertex
 
     /// Infects first computer.
     let infectFirst () = 
@@ -52,7 +53,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     let printInf () =
         let rec printRec currVertex =
             if currVertex < numberOfComputers() then 
-                if infected.Contains(currVertex) then printfn "%s%d" "INFECTED: " currVertex
+                if List.contains currVertex infected then printfn "%s%d" "INFECTED: " currVertex
                 else printfn "%s%d" "Not infected: " currVertex
                 printRec (currVertex + 1)
                 printf "%s" "\n"
@@ -63,15 +64,14 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         if not networkCanBeInfected then infected
         else
         let rec infectAllRec acc =            
-            if infected.Count = 0 then
-                infected.Add(infectFirst ())
+            if List.length infected = 0 then
+                infected <- infected @ [infectFirst ()]
                 printInf ()
                 infectAllRec 0
-            elif (infected.Count = numberOfComputers () || infected.TrueForAll(fun x -> not <| neighboursCanBeInfected x)) then infected
+            elif (List.length infected = numberOfComputers () || List.forall (fun x -> not (neighboursCanBeInfected x)) infected) then infected
             else 
-                infected.ForEach(fun x -> tryInfectNeighbours x)
-                infected.AddRange(newInfected)
-                newInfected.Clear()
+                List.iter(fun x -> tryInfectNeighbours x) infected
+                infected <- infected @ newInfected
                 printInf ()
                 infectAllRec 0
         infectAllRec 0    
