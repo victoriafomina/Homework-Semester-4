@@ -25,5 +25,5 @@ let calcRound op1 op2 op3 round =
 [<Test>]
 [<TestCaseSource("testCaseData1")>]
 let ``Rounding works correctly tests`` op1 op2 op3 roundTo result =
-    calcRound op1 op2 op3 roundTo |> should equal result
+    calcRound op1 op2 op3 roundTo |> should (equalWithin 0.01) result
     
