@@ -16,3 +16,13 @@ let rec isFreeVar expression var =
     | Variable x -> x = var
     | Abstr(vr, term) -> vr = var || (isFreeVar term var) 
     | Applic(l, r) -> isFreeVar l var || isFreeVar r var
+
+/// Makes substitution.
+let rec substitute expression insteadOf value =
+    match expression with
+    | Variable x when x = insteadOf -> value
+    | Variable -> expression
+    | Abstr(var, lmd) when var = insteadOf -> expression
+    | Abstr(var, lmd) when not (isFreeVar value var) -> Abstr(var, substitute lmd insteadOf value)
+    | Applic(l, r) -> Applic(substitute l insteadOf value, substitute r insteadOf value)
+    | _ -> expression
