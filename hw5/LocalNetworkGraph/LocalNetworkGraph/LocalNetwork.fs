@@ -37,6 +37,15 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
                 tryInfectNeighboursRec (currVrtx :: infected) vertex (currVrtx + 1)
             else tryInfectNeighboursRec infected vertex (currVrtx + 1)
         tryInfectNeighboursRec infected vertex 0
+    
+    /// Tries to infect all the vertexes that are connected with infected.
+    let tryInfectNeighboursOfInfected infected =
+        let rec tryInfectNeighboursOfInfectedRec infected leftVrtxs =
+            match leftVrtxs with
+            | [] -> infected
+            | h :: t -> tryInfectNeighboursOfInfectedRec (tryInfectNeighbours infected h) t
+        tryInfectNeighboursOfInfectedRec infected infected
+
 
     /// Infects first computer.
     let infectFirst () = 
@@ -65,8 +74,8 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
                 infectAllRec (infectFirst () :: infected)
             elif (List.length infected = numberOfComputers () || List.forall (fun x -> not (neighboursCanBeInfected x infected)) infected) then infected
             else 
-                printInf infected                
-                infectAllRec (List.map (fun x -> tryInfectNeighbours infected x) infected |> List.concat)
+                printInf infected
+                infectAllRec (tryInfectNeighboursOfInfected infected)
         infectAllRec []    
         
     /// Infects all the computers with virus. Returns infected computers.
