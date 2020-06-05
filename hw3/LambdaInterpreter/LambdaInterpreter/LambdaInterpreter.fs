@@ -26,3 +26,21 @@ let rec substitute expression insteadOf value =
     | Abstr(var, lmd) when not (isFreeVar value var) -> Abstr(var, substitute lmd insteadOf value)
     | Applic(l, r) -> Applic(substitute l insteadOf value, substitute r insteadOf value)
     | _ -> expression
+
+/// Reduce with left outer term.
+let rec reduceLeftOuter expression =
+    match expression with
+    | Applic(l, r) -> match reduceLeftOuter l with
+                      | Abstr(var, lmd) -> substitute lmd var r
+                      | var -> Applic(var, r)
+    | _ -> expression
+
+/// Beta reduction. Normal strategy.
+let rec betaReduction expression =
+    match expression with
+    | Variable -> expression
+    | Applic(l, r) -> match reduceLeftOuter l with
+                      | Abstr(var, lmd) -> betaReduction (substitute lmd var r)
+                      | var -> Applic(betaReduction var, betaReduction r)
+    | Abstr(var, lmd) -> Abstr(var, betaReduction lmd)
+    
