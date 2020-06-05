@@ -31,10 +31,12 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
 
     /// Tries to infect neighbours.
     let tryInfectNeighbours infected vertex =
-        let tryInfectNeighboursRec infected vertex =
-            (computersCommunication.[vertex]
-            |> List.filter (fun x -> not (List.contains x infected) && isInfectedThisStep x)) @ infected
-        tryInfectNeighboursRec infected vertex
+        let rec tryInfectNeighboursRec infected vertex currVrtx =
+            if currVrtx = numberOfComputers() then infected
+            elif isInfectedThisStep currVrtx && not (List.contains currVrtx infected) && List.contains currVrtx computersCommunication.[vertex] then
+                tryInfectNeighboursRec (currVrtx :: infected) vertex (currVrtx + 1)
+            else tryInfectNeighboursRec infected vertex (currVrtx + 1)
+        tryInfectNeighboursRec infected vertex 0
 
     /// Infects first computer.
     let infectFirst () = 
