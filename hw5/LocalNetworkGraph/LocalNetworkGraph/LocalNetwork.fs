@@ -9,9 +9,6 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     /// Infected computers.
     let mutable infected = []
 
-    /// Infected this step.
-    let mutable newInfected = []
-
     /// Number of computers in local network.
     let numberOfComputers () = List.length computersCommunication
 
@@ -36,11 +33,11 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         List.exists (fun x -> not (List.contains x infected) && abs(probabilityOfInfection x) > 0.001) computersCommunication.[vertex]
 
     /// Tries to infect neighbours.
-    let tryInfectNeighbours vertex =
-        let tryInfectNeighboursRec vertex =
-            computersCommunication.[vertex]
-            |> List.iter (fun x -> if not (List.contains x infected) && isInfectedThisStep x then newInfected <- newInfected @ [x])
-        tryInfectNeighboursRec vertex
+    let tryInfectNeighbours infected vertex =
+        let tryInfectNeighboursRec infected vertex =
+            (computersCommunication.[vertex]
+            |> List.filter (fun x -> not (List.contains x infected) && isInfectedThisStep x)) @ infected
+        tryInfectNeighboursRec infected vertex
 
     /// Infects first computer.
     let infectFirst () = 
@@ -63,18 +60,15 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     let rec infectAll =
         if not networkCanBeInfected then infected
         else
-        let rec infectAllRec acc =            
+        let rec infectAllRec infected =            
             if List.length infected = 0 then
-                infected <- infected @ [infectFirst ()]
                 printInf ()
-                infectAllRec 0
+                infectAllRec (infectFirst () :: infected)
             elif (List.length infected = numberOfComputers () || List.forall (fun x -> not (neighboursCanBeInfected x)) infected) then infected
             else 
-                List.iter(fun x -> tryInfectNeighbours x) infected
-                infected <- infected @ newInfected
-                printInf ()
-                infectAllRec 0
-        infectAllRec 0    
+                printInf ()                
+                infectAllRec (List.map (fun x -> tryInfectNeighbours infected x) infected |> List.concat)
+        infectAllRec []    
         
     /// Infects all the computers with virus. Returns infected computers.
     member public this.Infected = infectAll
