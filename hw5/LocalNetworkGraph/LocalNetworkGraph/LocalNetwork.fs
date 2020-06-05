@@ -6,9 +6,6 @@ open System
 /// Local network working process model.
 type LocalNetwork(computersCommunication: int list list, OSOfComputers: string list, probabilityInfectionForOS: float list) =
 
-    /// Infected computers.
-    let mutable infected = []
-
     /// Number of computers in local network.
     let numberOfComputers () = List.length computersCommunication
 
@@ -29,7 +26,7 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
     let networkCanBeInfected = List.exists (fun x -> abs(x) > 0.001) probabilityInfectionForOS
 
     /// Checks if the neighbours of the computer can be infected.
-    let neighboursCanBeInfected vertex =
+    let neighboursCanBeInfected vertex infected =
         List.exists (fun x -> not (List.contains x infected) && abs(probabilityOfInfection x) > 0.001) computersCommunication.[vertex]
 
     /// Tries to infect neighbours.
@@ -47,26 +44,26 @@ type LocalNetwork(computersCommunication: int list list, OSOfComputers: string l
         infectFirstRec 0
 
     /// Prints the information about the state of the network.
-    let printInf () =
-        let rec printRec currVertex =
+    let printInf infected =
+        let rec printRec infected currVertex =
             if currVertex < numberOfComputers() then 
                 if List.contains currVertex infected then printfn "%s%d" "INFECTED: " currVertex
                 else printfn "%s%d" "Not infected: " currVertex
-                printRec (currVertex + 1)
+                printRec infected (currVertex + 1)
                 printf "%s" "\n"
-        printRec 0
+        printRec infected 0
 
     /// Infects all the vertexes that are possible to infect.
     let rec infectAll =
-        if not networkCanBeInfected then infected
+        if not networkCanBeInfected then []
         else
         let rec infectAllRec infected =            
             if List.length infected = 0 then
-                printInf ()
+                printInf infected
                 infectAllRec (infectFirst () :: infected)
-            elif (List.length infected = numberOfComputers () || List.forall (fun x -> not (neighboursCanBeInfected x)) infected) then infected
+            elif (List.length infected = numberOfComputers () || List.forall (fun x -> not (neighboursCanBeInfected x infected)) infected) then infected
             else 
-                printInf ()                
+                printInf infected                
                 infectAllRec (List.map (fun x -> tryInfectNeighbours infected x) infected |> List.concat)
         infectAllRec []    
         
