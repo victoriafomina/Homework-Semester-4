@@ -1,4 +1,4 @@
-﻿module WebPagesLinks
+﻿module WebPages
 
 open System.Net
 open System.IO

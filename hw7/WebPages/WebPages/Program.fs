@@ -1,8 +1,12 @@
-﻿// Learn more about F# at http://fsharp.org
-
-open System
+﻿open WebPages
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World from F#!"
+
+    
+    let lists = download "https://www.linkedin.com/"
+
+    for list in lists do
+        printfn "%A" list
+
     0 // return an integer exit code

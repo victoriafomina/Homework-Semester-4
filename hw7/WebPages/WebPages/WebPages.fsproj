@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="WebPagesLinks.fs" />
+    <Compile Include="WebPages.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
