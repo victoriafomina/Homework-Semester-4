@@ -1,7 +1,7 @@
 ﻿module Queue
 
 /// Type implements queue data structure.
-type Queue () =
+type Queue<'a> () =
     let mutable maxSize = 100
     
     let mutable elements = Array.zeroCreate<'a> (maxSize)
