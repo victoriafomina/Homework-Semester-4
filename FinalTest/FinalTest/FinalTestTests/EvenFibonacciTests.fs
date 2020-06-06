@@ -1,7 +1,6 @@
 module FinalTestTests
 
 open NUnit.Framework
-open FsUnit
 
 [<SetUp>]
 let Setup () =
