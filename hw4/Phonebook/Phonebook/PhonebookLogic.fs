@@ -5,9 +5,8 @@ open Microsoft.FSharp.Core.Operators
 
 /// Reads the notes from file.
 let readInfoFromFile (fileName : string) =
-    let spaceIndex = Seq.findIndex(fun x -> x = ' ')
-    
-    let splitIntoListOfStrings (str : string) = [str.[..(spaceIndex str) - 1]; str.[((spaceIndex str) + 1)..]]
+
+    let splitIntoListOfStrings (str : string) = str.Split [|' '|] |> Array.toList
 
     let parse arrStr =
         let rec parseRec arrStr store =
