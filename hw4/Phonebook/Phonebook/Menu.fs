@@ -16,7 +16,7 @@ let menu =
         printfn "%s" "7 - read data from file\n"
         
         match Console.ReadLine() with
-        | "1" -> 0
+        | "1" -> ()
         | "2" ->
             printfn "%s" "Input name and number"
             menuRec dataFromFile ((addNote (Console.ReadLine()) (Console.ReadLine())) :: dataNotSavedToFileYet)

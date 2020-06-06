@@ -5,6 +5,6 @@ open Menu
 [<EntryPoint>]
 let main argv =
 
-    printfn "%d" menu
+    menu
 
     0 // return an integer exit code
