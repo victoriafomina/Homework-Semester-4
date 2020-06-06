@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[20pt]{extsizes}
+\parindent=0ex
+\usepackage[russian]{babel}
+
+\begin{document} 
+	\centerline{\bf Задача 3.2}
+	 
+	 $ \\[1ex]
+	 \text{\bfseries{Докажем, что} } SKK \equiv I \\[1ex]
+	 (\lambda x \ y \ z.x \ z \ (y \ z))(\lambda x \ y.x)(\lambda x \ y.x) \rightarrow_{\beta} \\[1ex] 
+	 \rightarrow_{\beta} (\lambda y \ z.(\lambda x \ y.x) \ z \ (y \ z))(\lambda x \ y.x) \rightarrow_{\beta} \\[1ex] 
+	 \rightarrow_{\beta} (\lambda z.(\lambda x \ y.x) \ z \ ((\lambda x \ y.x) \ z)) \rightarrow_{\beta} \\[1ex] 
+	 \rightarrow_{\beta} \lambda z.(\lambda x \ y.x) \ z \ (\lambda y.z) \rightarrow_{\beta} \\[1ex] 
+	 \rightarrow_{\beta} \lambda z.(\lambda y.z) \ (\lambda y.z) \rightarrow_{\beta} \\[1ex] 
+	 \rightarrow_{\beta} \lambda z.z \equiv I	 
+	 $
+\end{document}
