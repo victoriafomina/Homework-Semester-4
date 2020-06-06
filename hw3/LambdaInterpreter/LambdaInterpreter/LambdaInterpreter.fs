@@ -14,7 +14,7 @@ type LambdaTerm =
 let rec isFreeVar expression var = 
     match expression with 
     | Variable x -> x = var
-    | Abstr(vr, term) -> vr = var || (isFreeVar term var) 
+    | Abstr(vr, term) -> vr <> var && (isFreeVar term var) 
     | Applic(l, r) -> isFreeVar l var || isFreeVar r var
 
 /// Makes substitution.
@@ -30,7 +30,9 @@ let rec substitute expression insteadOf value =
 /// Reduce with left outer term.
 let rec reduceLeftOuter expression =
     match expression with
-    | Applic(l, r) -> match reduceLeftOuter l with | Abstr(var, lmd) -> substitute lmd var r | var -> Applic(var, r)
+    | Applic(l, r) -> match reduceLeftOuter l with 
+                      | Abstr(var, lmd) -> substitute lmd var r 
+                      | var -> Applic(var, r)
     | _ -> expression
 
 /// Beta reduction. Normal strategy.
