@@ -24,17 +24,9 @@ type Queue () =
     let shift () =
         for i in 1 .. (maxSize - 1) do
             elements.[i - 1] <- elements.[i]
-    
-    /// Checks if the queue contains value. (Just for testing)
-    member this.Contains (value : 'a) =
-        let rec containsRec value acc =
-            if acc = count then false
-            elif elements.[acc] = value then true
-            else containsRec value (acc + 1)
-        containsRec value 0
 
     /// Peeks the first element in the queue.
-    member this.Peek () =
+    member this.Peek() =
         if count = 0 then failwith "The queue is empty!"
         else elements.[0]
     
@@ -47,8 +39,8 @@ type Queue () =
             count <- count + 1
     
     /// Dequeu the first element.
-    member this.Dequeu () =
+    member this.Dequeu() =
         if count = 0 then failwith "The queue is empty!"
         else   
-            shift()
+            shift ()
             count <- count - 1
