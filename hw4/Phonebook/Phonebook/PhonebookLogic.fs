@@ -2,22 +2,24 @@
 
 open System.IO
 open Microsoft.FSharp.Core.Operators
+open System
 
 /// Reads the notes from file.
 let readInfoFromFile (fileName : string) =
-    let spaceIndex = Seq.findIndex(fun x -> x = ' ')
-    
-    let splitIntoListOfStrings (str : string) = [str.[..(spaceIndex str) - 1]; str.[((spaceIndex str) + 1)..]]
+
+    let splitIntoListOfStrings (str : string) = str.Split [|' '|] |> Array.toList
+
+    let toPairOfString list = (List.head list, List.last list)
 
     let parse arrStr =
         let rec parseRec arrStr store =
             match arrStr with
             | [] -> store
-            | h :: t -> parseRec t (splitIntoListOfStrings h :: store)
+            | h :: t -> parseRec t ((h |> splitIntoListOfStrings |> toPairOfString ) :: store)
         parseRec arrStr []
 
     try
-        fileName |> File.ReadAllLines |> Array.toList |> parse
+        fileName |> File.ReadAllLines |> Array.toList  |> parse
     with | _ -> failwith "File was not opened or was not handled!"
 
 /// Saves the current data to the file.
@@ -26,7 +28,7 @@ let saveCurrentData (fileName : string) data =
         let rec parseRec listListStr listStr =
             match listListStr with
             | [] -> listStr
-            | h :: t -> parseRec t ((List.head h + " " + List.last h) :: listStr)
+            | h :: t -> parseRec t ([List.head h; List.last h] :: listStr)
         parseRec listListStr []
                 
     try
