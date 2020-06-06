@@ -21,7 +21,7 @@ let menu =
             printfn "%s" "Input name and number"
             menuRec dataFromFile ((addNote (Console.ReadLine()) (Console.ReadLine())) :: dataNotSavedToFileYet)
         | "3" ->
-            if dataFromFile @ dataNotSavedToFileYet <> [] then
+            if dataFromFile <> [] then
                 printfn "%s" "Input name" 
                 let name = Console.ReadLine()
                 match findNumberByName name (dataFromFile @ dataNotSavedToFileYet) with
