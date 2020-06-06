@@ -26,20 +26,20 @@ type Queue<'a> () =
             elements.[i - 1] <- elements.[i]
 
     /// Peeks the first element in the queue.
-    member this.Peek() =
+    member this.Peek () =
         if count = 0 then failwith "The queue is empty!"
         else elements.[0]
     
     /// Enqueue an element.
-    member this.Enqueu value =
+    member this.Enqueue value =
         if count = maxSize then
             resize()
         else
             elements.[count] <- value
             count <- count + 1
     
-    /// Dequeu the first element.
-    member this.Dequeu() =
+    /// Dequeue the first element.
+    member this.Dequeue () =
         if count = 0 then failwith "The queue is empty!"
         else   
             shift ()
