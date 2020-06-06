@@ -7,7 +7,7 @@ open System
 
 [<Test>]
 let ``Enqueue and peek test 1`` () =
-    let q = new Queue()
+    let q = new Queue<int>()
     q.Enqueu(1)
     q.Peek() |> should equal 1
 
