@@ -4,7 +4,7 @@
 type Queue () =
     let mutable maxSize = 100
     
-    let mutable elements = Array.zeroCreate<int> (maxSize)
+    let mutable elements = Array.zeroCreate<'a> (maxSize)
 
     let mutable count = 0
 
@@ -12,9 +12,9 @@ type Queue () =
     let resize () = 
         maxSize <- maxSize + 50
         let mutable temp = elements
-        elements <- Array.zeroCreate<int> (maxSize)
+        elements <- Array.zeroCreate<'a> (maxSize)
 
-        let copy (whatCopy : int[]) =
+        let copy (whatCopy : 'a[]) =
             for i in 0.. (maxSize - 1 - 50) do
                 elements.[i] <- whatCopy.[i]
 
@@ -26,7 +26,7 @@ type Queue () =
             elements.[i - 1] <- elements.[i]
     
     /// Checks if the queue contains value. (Just for testing)
-    member this.Contains value =
+    member this.Contains (value : 'a) =
         let rec containsRec value acc =
             if acc = count then false
             elif elements.[acc] = value then true

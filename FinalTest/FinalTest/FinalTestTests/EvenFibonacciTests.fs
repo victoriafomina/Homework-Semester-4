@@ -23,6 +23,5 @@ let checkSumEvenFibonacci () =
 
 [<Test>]
 let ``Sum of even fibonacci lower than 1 000 000 test`` () =
-
     evenFibonacci () |> should equal (checkSumEvenFibonacci ())
 
