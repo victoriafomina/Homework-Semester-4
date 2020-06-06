@@ -15,14 +15,14 @@ type Queue () =
         elements <- Array.zeroCreate<'a> (maxSize)
 
         let copy (whatCopy : 'a[]) =
-            for i in 0.. (maxSize - 1 - 50) do
+            for i in 0..(maxSize - 1 - 50) do
                 elements.[i] <- whatCopy.[i]
 
         copy temp
     
     /// Makes shift in array after dequeue.
     let shift () =
-        for i in 1 .. (maxSize - 1) do
+        for i in 1..(maxSize - 1) do
             elements.[i - 1] <- elements.[i]
 
     /// Peeks the first element in the queue.
